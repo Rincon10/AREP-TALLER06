@@ -1,0 +1,9 @@
+mvn archetype:generate -DgroupId=edu.escuelaing.arep -DartifactId=App -DarchetypeArtifactId=maven-archetype-quickstart
+
+mvn exec:java -Dexec.mainClass="edu.escuelaing.arep.reflectionsexamples.InvokeMain" -Dexec.args="packageArg"
+mvn exec:java -Dexec.mainClass="edu.escuelaing.arep.RunMyServer"
+
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* edu.escuelaing.arep.RunMyServer
+
+
+
