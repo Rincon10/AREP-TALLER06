@@ -7,3 +7,12 @@ web: java $JAVA_OPTS -cp target/classes:target/dependency/* edu.escuelaing.arep.
 
 
 
+docker build -f DockerFile . --tag dockersparkprimerdocker
+
+docker images
+
+docker ps
+
+docker run -d -p 34000:6000 --name firstdockercontainer dockersparkprimer
+
+docker-compose up -d
