@@ -5,14 +5,44 @@ mvn exec:java -Dexec.mainClass="edu.escuelaing.arep.RunMyServer"
 
 web: java $JAVA_OPTS -cp target/classes:target/dependency/* edu.escuelaing.arep.RunMyServer
 
+// Las imagenes son cosas las cuales puedo generar contenedores
 
+1. Vamos a crear una imagen para que podamos subirlo a docker, DockerFile
+=========================================================================
+FROM openjdk:8 //Imagen del repositorio, para ejecutar java
 
-docker build -f DockerFile . --tag dockersparkprimerdocker
+WORKDIR /usrapp/bin // El contenedor sera para una aplicacion, y manejare este directorio
+
+ENV PORT 6000   // variable de entorno PORT
+
+COPY /target/classes /usrapp/bin/classes
+COPY /target/dependency /usrapp/bin/dependency
+
+CMD ["java","-cp","./classes:./dependency/*","edu.escuelaing.arep.App"]
+=========================================================================
+
+docker build --tag primer-docker-spark .
+
+docker build -f DockerFile . --tag primer-docker-spark
 
 docker images
 
 docker ps
 
-docker run -d -p 34000:6000 --name firstdockercontainer dockersparkprimer
+docker run -d -p 34000:6000 --name firstdockercontainer primer-docker-spark
 
 docker-compose up -d
+
+//En su motor de docker local cree una referencia a su imagen con el nombre del repositorio a donde desea subirla:
+
+https://hub.docker.com/
+
+
+
+docker tag primer-docker-spark:latest rincon10/firstsprkwebapprepo:latest
+
+docker images // debe de existir la nueva referencia
+
+docker login
+
+docker push rincon10/firstsprkwebapprepo:latest
